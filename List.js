@@ -2,7 +2,6 @@ class List{
     constructor(){
         this.head = null;
         this.tail = null;
-        this.nodeCount = 0;
     }
 
     checkIndex(index, max){
@@ -12,27 +11,39 @@ class List{
     }
 
     length(){
-        return this.nodeCount;
+        let tmp = this.head;
+        let count = 0;
+
+        while(true){
+            if(tmp === null || tmp === this.tail){
+                count += (tmp === null ? 0 : 1);
+                break;
+            }
+
+            count++;
+            tmp = tmp.next;
+        }
+
+        return count;
     }
 
     append(value){
         const newNode = {value, next: this.head};
 
-        if(this.nodeCount){
+        if(this.length()){
             this.tail.next = newNode;
         } else {
             this.head = newNode;
         }
 
         this.tail = newNode;
-        this.nodeCount++;
     }
 
     //pretty big function, maybe need to optimize it somehow
     insert(value, index){
-        this.checkIndex(index, this.nodeCount);
+        this.checkIndex(index, this.length());
 
-        if(index === this.nodeCount){
+        if(index === this.length()){
             this.append(value);
             return;
         }
@@ -41,11 +52,10 @@ class List{
         let currentNode = this.head;
         let prevNode = this.tail;
 
-        for(let i = 0; i < this.nodeCount; i++){
+        for(let i = 0; i < this.length(); i++){
             if(i === index){
                 newNode.next = currentNode;
                 prevNode.next = newNode;
-                this.nodeCount++;
                 break;
             }
 
@@ -65,10 +75,10 @@ class List{
     }
 
     get(index) {
-        this.checkIndex(index, this.nodeCount - 1);
+        this.checkIndex(index, this.length() - 1);
 
         let tmp = this.head;
-        for(let i = 0; i < this.nodeCount; i++){
+        for(let i = 0; i < this.length(); i++){
             if(i === index) return tmp.value;
 
             tmp = tmp.next;
@@ -79,7 +89,7 @@ class List{
         const copy = new List();
         let tmp = this.head;
 
-        for(let i = 0; i < this.nodeCount; i++){
+        for(let i = 0; i < this.length(); i++){
             copy.append(tmp.value);
             tmp = tmp.next;
         }
@@ -90,7 +100,7 @@ class List{
     findFirst(value){
         let tmp = this.head;
 
-        for(let i = 0; i < this.nodeCount; i++) {
+        for(let i = 0; i < this.length(); i++) {
             if(tmp.value === value) return i;
             tmp = tmp.next;
         }
@@ -102,7 +112,7 @@ class List{
         let tmp = this.head;
         let result = -1;
 
-        for(let i = 0; i < this.nodeCount; i++) {
+        for(let i = 0; i < this.length(); i++) {
             if(tmp.value === value) result = i;
             tmp = tmp.next;
         }
