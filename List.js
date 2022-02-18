@@ -32,11 +32,10 @@ class List{
 
         if(this.length()){
             this.tail.next = newNode;
-        } else {
-            this.head = newNode;
-        }
+        } else this.head = newNode;
 
         this.tail = newNode;
+        if(this.length() === 1) this.head.next = this.tail;
     }
 
     //pretty big function, maybe need to optimize it somehow
@@ -118,6 +117,40 @@ class List{
         }
 
         return result;
+    }
+
+    deleteNode(index){
+        this.checkIndex(index, this.length() - 1);
+
+        let tmp = this.head;
+        let prev = this.tail;
+
+        for(let i = 0; i < this.length(); i++){
+            if(i === index){
+                prev.next = tmp.next;
+                if(i === 0) this.head = tmp.next;
+                if(i === this.length() - 1) this.tail = prev;
+
+                return tmp.value;
+            }
+
+            prev = tmp;
+            tmp = tmp.next;
+        }
+    }
+
+    deleteAll(value){
+        let tmp = this.head;
+        let prev = this.tail;
+
+        for(let i = 0; i < this.length(); i++){
+            if(tmp.value === value){
+                this.deleteNode(i);
+            }
+
+            prev = tmp;
+            tmp = tmp.next;
+        }
     }
 }
 
