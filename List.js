@@ -5,6 +5,12 @@ class List{
         this.nodeCount = 0;
     }
 
+    checkIndex(index, max){
+        if(index < 0 || index > max){
+            throw new Error('Incorrect index was passed');
+        }
+    }
+
     length(){
         return this.nodeCount;
     }
@@ -24,9 +30,7 @@ class List{
 
     //pretty big function, maybe need to optimize it somehow
     insert(value, index){
-        if(index < 0 || index > this.nodeCount){
-            throw new Error('Incorrect index was passed in .inssert()')
-        }
+        this.checkIndex(index, this.nodeCount);
 
         if(index === this.nodeCount){
             this.append(value);
@@ -58,6 +62,52 @@ class List{
             this.append(tmp.value);
             tmp = tmp.next;
         }
+    }
+
+    get(index) {
+        this.checkIndex(index, this.nodeCount - 1);
+
+        let tmp = this.head;
+        for(let i = 0; i < this.nodeCount; i++){
+            if(i === index) return tmp.value;
+
+            tmp = tmp.next;
+        }
+    }
+
+    clone(){
+        const copy = new List();
+        let tmp = this.head;
+
+        for(let i = 0; i < this.nodeCount; i++){
+            copy.append(tmp.value);
+            tmp = tmp.next;
+        }
+
+        return copy;
+    }
+
+    findFirst(value){
+        let tmp = this.head;
+
+        for(let i = 0; i < this.nodeCount; i++) {
+            if(tmp.value === value) return i;
+            tmp = tmp.next;
+        }
+
+        return -1;
+    }
+
+    findLast(value){
+        let tmp = this.head;
+        let result = -1;
+
+        for(let i = 0; i < this.nodeCount; i++) {
+            if(tmp.value === value) result = i;
+            tmp = tmp.next;
+        }
+
+        return result;
     }
 }
 
