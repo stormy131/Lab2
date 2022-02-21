@@ -1,18 +1,26 @@
+interface NodeI {
+    value: string,
+    next: NodeI
+}
+
 class List{
+    head: NodeI;
+    tail: NodeI;
+
     constructor(){
         this.head = null;
         this.tail = null;
     }
 
-    checkIndex(index, max){
+    checkIndex(index: number, max: number){
         if(index < 0 || index > max){
             throw new Error('Incorrect index was passed');
         }
     }
 
-    length(){
-        let tmp = this.head;
-        let count = 0;
+    length(): number{
+        let tmp: NodeI = this.head;
+        let count: number = 0;
 
         while(true){
             if(tmp === null || tmp === this.tail){
@@ -27,8 +35,8 @@ class List{
         return count;
     }
 
-    append(value){
-        const newNode = {value, next: this.head};
+    append(value: string){
+        const newNode: NodeI = {value, next: this.head};
 
         if(this.length()){
             this.tail.next = newNode;
@@ -38,8 +46,7 @@ class List{
         if(this.length() === 1) this.head.next = this.tail;
     }
 
-    //pretty big function, maybe need to optimize it somehow
-    insert(value, index){
+    insert(value: string, index: number){
         this.checkIndex(index, this.length());
 
         if(index === this.length()){
@@ -47,13 +54,13 @@ class List{
             return;
         }
 
-        const newNode = { value };
-        let currentNode = this.head;
-        let prevNode = this.tail;
+        let newNode: NodeI;
+        let currentNode: NodeI = this.head;
+        let prevNode: NodeI = this.tail;
 
         for(let i = 0; i < this.length(); i++){
             if(i === index){
-                newNode.next = currentNode;
+                newNode = {value, next: currentNode};
                 prevNode.next = newNode;
                 break;
             }
@@ -65,18 +72,18 @@ class List{
         if(index === 0) this.head = newNode;
     }
 
-    extend(list){
-        let tmp = list.head;
+    extend(list: List){
+        let tmp: NodeI = list.head;
         for(let i = 0; i < list.length(); i++){
             this.append(tmp.value);
             tmp = tmp.next;
         }
     }
 
-    get(index) {
+    get(index: number): string{
         this.checkIndex(index, this.length() - 1);
 
-        let tmp = this.head;
+        let tmp: NodeI = this.head;
         for(let i = 0; i < this.length(); i++){
             if(i === index) return tmp.value;
 
@@ -84,9 +91,9 @@ class List{
         }
     }
 
-    clone(){
-        const copy = new List();
-        let tmp = this.head;
+    clone(): List{
+        const copy: List = new List();
+        let tmp: NodeI = this.head;
 
         for(let i = 0; i < this.length(); i++){
             copy.append(tmp.value);
@@ -96,8 +103,8 @@ class List{
         return copy;
     }
 
-    findFirst(value){
-        let tmp = this.head;
+    findFirst(value: string): number{
+        let tmp: NodeI = this.head;
 
         for(let i = 0; i < this.length(); i++) {
             if(tmp.value === value) return i;
@@ -107,9 +114,9 @@ class List{
         return -1;
     }
 
-    findLast(value){
-        let tmp = this.head;
-        let result = -1;
+    findLast(value: string): number{
+        let tmp: NodeI = this.head;
+        let result: number = -1;
 
         for(let i = 0; i < this.length(); i++) {
             if(tmp.value === value) result = i;
@@ -119,17 +126,17 @@ class List{
         return result;
     }
 
-    deleteNode(index){
+    deleteNode(index: number): string{
         this.checkIndex(index, this.length() - 1);
 
-        let tmp = this.head;
-        let prev = this.tail;
+        let tmp: NodeI = this.head;
+        let prev: NodeI = this.tail;
 
         for(let i = 0; i < this.length(); i++){
             if(i === index){
                 prev.next = tmp.next;
-                if(i === 0) this.head = tmp.next;
-                if(i === this.length() - 1) this.tail = prev;
+                if(tmp === this.head) this.head = tmp.next;
+                if(tmp === this.tail) this.tail = prev;
 
                 return tmp.value;
             }
@@ -139,13 +146,14 @@ class List{
         }
     }
 
-    deleteAll(value){
-        let tmp = this.head;
-        let prev = this.tail;
+    deleteAll(value: string){
+        let tmp: NodeI = this.head;
+        let prev: NodeI = this.tail;
+        const startLength: number = this.length();
 
         for(let i = 0; i < this.length(); i++){
             if(tmp.value === value){
-                this.deleteNode(i);
+                this.deleteNode(i - (startLength - this.length()));
             }
 
             prev = tmp;
@@ -154,4 +162,4 @@ class List{
     }
 }
 
-module.exports = List;
+export default List;
