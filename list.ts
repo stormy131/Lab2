@@ -182,15 +182,6 @@ class List{
         this.head = this.tail;
         this.tail = prevHead;
     }
-
-    getFull(){
-        let tmp = this.head;
-        for(let i = 0; i < this.length(); i++){
-            console.log(tmp);
-            tmp = tmp.next;
-        }
-        console.log('\n');
-    }
 }
 
 export default List;
