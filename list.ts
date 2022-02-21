@@ -148,15 +148,13 @@ class List{
 
     deleteAll(value: string){
         let tmp: NodeI = this.head;
-        let prev: NodeI = this.tail;
         const startLength: number = this.length();
 
-        for(let i = 0; i < this.length(); i++){
+        for(let i = 0; i < startLength; i++){
             if(tmp.value === value){
                 this.deleteNode(i - (startLength - this.length()));
             }
 
-            prev = tmp;
             tmp = tmp.next;
         }
     }
