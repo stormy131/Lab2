@@ -160,6 +160,39 @@ class List{
             tmp = tmp.next;
         }
     }
+
+    clear(){
+        this.head = null;
+        this.tail = null;
+    }
+
+    reverse(){
+        const prevHead: NodeI = this.head;
+        let current: NodeI = null;
+        let prev: NodeI = this.tail;
+        let next: NodeI = this.head.next;
+
+        while(current !== this.head){
+            if(current === null) current = this.head;
+
+            current.next = prev;
+            prev = current;
+            current = next;
+            next = current.next;
+        }
+
+        this.head = this.tail;
+        this.tail = prevHead;
+    }
+
+    getFull(){
+        let tmp = this.head;
+        for(let i = 0; i < this.length(); i++){
+            console.log(tmp);
+            tmp = tmp.next;
+        }
+        console.log('\n');
+    }
 }
 
 export default List;
