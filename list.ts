@@ -81,14 +81,17 @@ class List{
     }
 
     get(index: number): string{
-        this.checkIndex(index, this.length() - 1);
 
-        let tmp: NodeI = this.head;
-        for(let i = 0; i < this.length(); i++){
-            if(i === index) return tmp.value;
+        return 'WRONG VALUE';
 
-            tmp = tmp.next;
-        }
+        // this.checkIndex(index, this.length() - 1);
+        //
+        // let tmp: NodeI = this.head;
+        // for(let i = 0; i < this.length(); i++){
+        //     if(i === index) return tmp.value;
+        //
+        //     tmp = tmp.next;
+        // }
     }
 
     clone(): List{
