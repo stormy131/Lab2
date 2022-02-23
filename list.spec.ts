@@ -51,7 +51,7 @@ describe('List class testing', () => {
 
         it('should change "tail" property', () => {
             list.append('NEW');
-            expect(list.tail.value).toEqual('NEW');
+            expect(list._tail).toEqual('NEW');
         });
 
         it('last element should be "d"', () => {
@@ -71,8 +71,8 @@ describe('List class testing', () => {
             list.insert('NEW', 0);
             //List: NEW -> a -> b -> c -> NEW
 
-            expect(list.head.value).toEqual('NEW');
-            expect(list.tail.value).toEqual('NEW');
+            expect(list._head).toEqual('NEW');
+            expect(list._tail).toEqual('NEW');
         });
 
         it('should throw an error', () => {
@@ -96,7 +96,7 @@ describe('List class testing', () => {
             secondList.append('NEW');
 
             list.extend(secondList);
-            secondList.head.value = 'CHANGED VALUE';
+            secondList.append('ONLY IN LIST#2');
             expect(list.get(list.length() - 1)).toEqual('NEW');
         });
     });
@@ -152,8 +152,8 @@ describe('List class testing', () => {
             //List: b -> c
             list.deleteNode(1);
 
-            expect(list.head.value).toEqual('b');
-            expect(list.tail.value).toEqual('b')
+            expect(list._head).toEqual('b');
+            expect(list._tail).toEqual('b')
         });
 
         it('should throw an error', () => {
@@ -186,8 +186,8 @@ describe('List class testing', () => {
             list.clear();
 
             expect(list.length()).toEqual(0);
-            expect(list.head).toEqual(null);
-            expect(list.tail).toEqual(null);
+            expect(list._head).toEqual(null);
+            expect(list._tail).toEqual(null);
         });
     });
 
@@ -205,8 +205,8 @@ describe('List class testing', () => {
             //List: a -> b -> c
             list.reverse();
 
-            expect(list.head.value).toEqual('c');
-            expect(list.tail.value).toEqual('a');
+            expect(list._head).toEqual('c');
+            expect(list._tail).toEqual('a');
         });
     });
 });

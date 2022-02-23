@@ -4,12 +4,20 @@ interface NodeI {
 }
 
 class List{
-    head: NodeI;
-    tail: NodeI;
+    private head: NodeI;
+    private tail: NodeI;
 
     constructor(){
         this.head = null;
         this.tail = null;
+    }
+
+    get _head(){
+        return this.head ? this.head.value : null;
+    }
+
+    get _tail(){
+        return this.tail ? this.tail.value : null;
     }
 
     checkIndex(index: number, max: number){
