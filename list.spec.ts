@@ -74,7 +74,7 @@ describe('List class testing', () => {
         it('should change "head"/"tail" properties', () => {
             const newValue: string = 'NEW';
             const headIndex: number = 0;
-            const tailIndex: number = list.length() - 1;
+            const tailIndex: number = list.length();
 
             list.insert(newValue, tailIndex);
             list.insert(newValue, headIndex);
