@@ -192,4 +192,52 @@ class List{
     }
 }
 
+const printElements = (list: List) => {
+    let res: string = '';
+    for(let i = 0; i < list.length(); i++){
+        res += list.get(i) + (i === list.length() - 1 ? '' : '->');
+    }
+
+    console.log((res || 'Empty list') + '\n');
+};
+
+const list: List = new List();
+list.append('1'); //Adds element at the end of the list
+printElements(list);
+
+list.insert('2', 1); //Adds element at certain index
+printElements(list);
+
+console.log(list.length(), '\n'); //Returns the length of the list
+
+const list2: List = new List();
+list.append('3');
+list.extend(list2); //Extends "list" with elements of "list2"
+printElements(list);
+
+console.log(list.get(2), '\n'); //Returns element at certain index
+
+const copy = list.clone(); //Clones the whole list and returns it
+printElements(copy);
+
+list.append('1');
+list.append('2');
+console.log('List-state before findFirst/Last:');
+printElements(list);
+
+console.log(list.findFirst('1')); //Returns index of the first found element with passed value
+console.log(list.findLast('2'), '\n'); //Returns index of the last found element with passed value
+
+list.deleteNode(0); //Deletes node at certain index
+printElements(list);
+
+list.deleteAll('2'); //Deletes all nodes with passed value
+printElements(list);
+
+list.reverse(); //Reverses the order of nodes
+printElements(list);
+
+list.clear(); //Wipes all data about the list
+printElements(list);
+
 export default List;
