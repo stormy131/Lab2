@@ -34,44 +34,59 @@ describe('List class testing', () => {
         });
 
         it('should throw an error', () => {
-            expect(() => list.get(3)).toThrow(new Error('Incorrect index was passed'));
+            const incorrectIndex: number = list.length();
+            expect(() => list.get(incorrectIndex)).toThrow(new Error('Incorrect index was passed'));
         });
     })
 
     describe('.append() testing', () => {
         it('should increase number of elements', () => {
+            const prevLength: number = list.length();
+
             list.append('NEW');
-            expect(list.length()).toEqual(4);
+            expect(list.length()).toBeGreaterThan(prevLength)
         });
 
         it('should change "tail" property', () => {
-            list.append('NEW');
-            expect(list._tail).toEqual('NEW');
+            const newValue: string = 'NEW';
+
+            list.append(newValue);
+            expect(list._tail).toEqual(newValue);
         });
 
         it('should add element to the end of the list', () => {
-            list.append('NEW');
-            expect(list.get(list.length() - 1)).toEqual('NEW');
+            const newValue: string = 'NEW';
+
+            list.append(newValue);
+            expect(list.get(list.length() - 1)).toEqual(newValue);
         });
     });
 
     describe('.insert() testing', () => {
         it('should insert element in correct position', () => {
-            list.insert('NEW', 1);
-            expect(list.get(1)).toEqual('NEW');
+            const index: number = 1;
+            const newValue: string = 'NEW';
+
+            list.insert(newValue, index);
+            expect(list.get(index)).toEqual(newValue);
         });
 
         it('should change "head"/"tail" properties', () => {
-            list.insert('NEW', 3);
-            list.insert('NEW', 0);
-            //List: NEW -> a -> b -> c -> NEW
+            const newValue: string = 'NEW';
+            const headIndex: number = 0;
+            const tailIndex: number = list.length() - 1;
 
-            expect(list._head).toEqual('NEW');
-            expect(list._tail).toEqual('NEW');
+            list.insert(newValue, tailIndex);
+            list.insert(newValue, headIndex);
+            //List[After]: NEW -> a -> b -> c -> NEW
+
+            expect(list._head).toEqual(newValue);
+            expect(list._tail).toEqual(newValue);
         });
 
         it('should throw an error', () => {
-            expect(() => list.insert('NEW', 25)).toThrow(new Error('Incorrect index was passed'));
+            expect(() => list.insert('NEW', list.length() + 1))
+                .toThrow(new Error('Incorrect index was passed'));
         });
     });
 
@@ -110,7 +125,7 @@ describe('List class testing', () => {
     describe('.findFirst() testing', () => {
         it('should return index of the first element with passed value', () => {
             list.insert('b', 2);
-            //List: a -> b -> b -> c
+            //List[After]: a -> b -> b -> c
 
             expect(list.findFirst('b')).toEqual(1);
         });
@@ -123,7 +138,7 @@ describe('List class testing', () => {
     describe('.findLast() testing', () => {
         it('should return index of the last element with passed value', () => {
             list.insert('c', 3);
-            //List: a -> b -> c -> c
+            //List[After]: a -> b -> c -> c
 
             expect(list.findLast('c')).toEqual(3);
         });
@@ -135,16 +150,18 @@ describe('List class testing', () => {
 
     describe('.deleteNode() testing', () => {
         it('should delete node by passed index', () => {
-            //List: a -> b -> c
-            list.deleteNode(1);
-            expect(list.findFirst('b')).toEqual(-1);
+            const index: number = 1;
+            const value: string = list.get(index);
+
+            list.deleteNode(index);
+            expect(list.findFirst(value)).toEqual(-1);
         });
 
         it('should change "head"/"tail" properties', () => {
-            //List: a -> b -> c
+            //List[Before]: a -> b -> c
             list.deleteNode(0);
 
-            //List: b -> c
+            //List[Before]: b -> c
             list.deleteNode(1);
 
             expect(list._head).toEqual('b');
@@ -171,6 +188,7 @@ describe('List class testing', () => {
             const spy = jest.spyOn(list, 'deleteNode');
             list.deleteAll('NO NODE WITH THIS VALUE');
 
+            // "deleteAll" uses "deleteNode" to delete every element from list
             expect(spy).toBeCalledTimes(0);
         });
     });
@@ -188,7 +206,7 @@ describe('List class testing', () => {
 
     describe('.reverse() testing', () => {
         it('should reverse the order of nodes', () => {
-            //List: a -> b -> c
+            //List[Before]: a -> b -> c
             list.reverse();
 
             expect(list.get(0)).toEqual('c');
@@ -197,11 +215,12 @@ describe('List class testing', () => {
         });
 
         it('should change "head"/"tail" properties', () => {
-            //List: a -> b -> c
-            list.reverse();
+            const prevHead: string = list.get(0);
+            const prevTail: string = list.get(list.length() - 1);
 
-            expect(list._head).toEqual('c');
-            expect(list._tail).toEqual('a');
+            list.reverse();
+            expect(list._head).toEqual(prevTail);
+            expect(list._tail).toEqual(prevHead);
         });
     });
 });
