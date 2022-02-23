@@ -11,16 +11,16 @@ describe('List class testing', () => {
     });
 
     describe('.length() testing', () => {
-        it('should return 3', () => {
+        it('should return starting length of the list (3)', () => {
             expect(list.length()).toEqual(3);
         });
 
-        it('should return 4', () => {
+        it('should return starting length + 1 (4)', () => {
             list.append('NEW');
             expect(list.length()).toEqual(4);
         });
 
-        it('should return 0', () => {
+        it('should return length of an empty list (0)', () => {
             list.clear();
             expect(list.length()).toEqual(0);
         });
@@ -29,13 +29,8 @@ describe('List class testing', () => {
     describe('.get() testing', () => {
         // List: a -> b -> c
 
-        it('should return "a"', () => {
+        it('should return element at passed index ("a")', () => {
             expect(list.get(0)).toEqual('a');
-        });
-
-        it('should return just added element', () => {
-            list.append('NEW');
-            expect(list.get(3)).toEqual('NEW');
         });
 
         it('should throw an error', () => {
@@ -44,7 +39,7 @@ describe('List class testing', () => {
     })
 
     describe('.append() testing', () => {
-        it('length should change to 4', () => {
+        it('should increase number of elements', () => {
             list.append('NEW');
             expect(list.length()).toEqual(4);
         });
@@ -54,7 +49,7 @@ describe('List class testing', () => {
             expect(list._tail).toEqual('NEW');
         });
 
-        it('last element should be "d"', () => {
+        it('should add element to the end of the list', () => {
             list.append('NEW');
             expect(list.get(list.length() - 1)).toEqual('NEW');
         });
@@ -81,7 +76,7 @@ describe('List class testing', () => {
     });
 
     describe('.extend() testing', () => {
-        it('should add elements to the end of th list', () => {
+        it('should add new elements to the end of the list', () => {
             const secondList: List = new List();
             secondList.append('NEW');
             secondList.append('NEW2');
@@ -113,33 +108,33 @@ describe('List class testing', () => {
     });
 
     describe('.findFirst() testing', () => {
-        it('should return index of the first "b"', () => {
+        it('should return index of the first element with passed value', () => {
             list.insert('b', 2);
             //List: a -> b -> b -> c
 
             expect(list.findFirst('b')).toEqual(1);
         });
 
-        it('should return -1', () => {
+        it('should return -1, if no elements were found', () => {
             expect(list.findFirst('NEW ELEMENT')).toEqual(-1);
         });
     });
 
     describe('.findLast() testing', () => {
-        it('should return index of the last "c"', () => {
+        it('should return index of the last element with passed value', () => {
             list.insert('c', 3);
             //List: a -> b -> c -> c
 
             expect(list.findLast('c')).toEqual(3);
         });
 
-        it('should return -1', () => {
+        it('should return -1, if no elements were found', () => {
             expect(list.findLast('NEW ELEMENT')).toEqual(-1);
         });
     });
 
     describe('.deleteNode() testing', () => {
-        it('should delete node by index', () => {
+        it('should delete node by passed index', () => {
             //List: a -> b -> c
             list.deleteNode(1);
             expect(list.findFirst('b')).toEqual(-1);
@@ -162,7 +157,7 @@ describe('List class testing', () => {
     });
 
     describe('.deleteAll() testing', () => {
-        it('should delete all nodes with "b" value', () => {
+        it('should delete all nodes with passed value', () => {
             list.append('b');
             //List: a -> b -> c -> b
 
@@ -172,7 +167,7 @@ describe('List class testing', () => {
             expect(list.get(1)).toEqual('c');
         });
 
-        it('should not change list', () => {
+        it('should not change list, if there are no nodes with passed value', () => {
             const spy = jest.spyOn(list, 'deleteNode');
             list.deleteAll('NO NODE WITH THIS VALUE');
 
